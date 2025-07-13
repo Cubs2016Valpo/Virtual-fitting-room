@@ -1,0 +1,42 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 20px;
+}
+
+.mannequin-container {
+  position: relative;
+  display: inline-block;
+}
+
+#mannequin {
+  width: 300px;
+  height: auto;
+  display: block;
+}
+
+#clothing-layer img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: auto;
+  pointer-events: none; /* So clicks go through */
+}
+
+.input-area {
+  margin-top: 20px;
+}
+
+#clothing-url {
+  width: 300px;
+  padding: 8px;
+  font-size: 16px;
+}
+
+button {
+  padding: 8px 12px;
+  margin-left: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
