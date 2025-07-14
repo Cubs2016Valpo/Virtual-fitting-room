@@ -17,7 +17,7 @@ h1 {
   padding: 10px;
   background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px; /* fixed width */
+  width: 300px;
   height: auto;
 }
 
@@ -27,7 +27,7 @@ h1 {
   display: block;
   position: relative;
   z-index: 1;
-  user-select: none; /* prevent text/image selection on mannequin */
+  user-select: none; /* prevent selecting mannequin */
 }
 
 #clothing-layer {
@@ -36,7 +36,7 @@ h1 {
   left: 0;
   width: 300px;
   height: 100%;
-  pointer-events: none; /* disables interactions on container */
+  pointer-events: none; /* so layer itself doesn’t block mouse events */
   z-index: 2;
 }
 
@@ -48,7 +48,7 @@ h1 {
   opacity: 0.95;
   cursor: grab;
   user-select: none;
-  pointer-events: auto; /* enable interaction on clothing */
+  pointer-events: auto; /* enable mouse events on clothing */
   z-index: 3;
 }
 
