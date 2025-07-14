@@ -12,27 +12,23 @@ generateBtn.addEventListener('click', () => {
     return;
   }
 
-  // Create wrapper div
   const wrapper = document.createElement('div');
   wrapper.classList.add('clothing-wrapper');
   wrapper.style.top = '60px';
   wrapper.style.left = '40px';
   wrapper.style.width = '200px';
-  wrapper.style.height = 'auto';
+  wrapper.style.height = '200px';
 
-  // Create clothing image
   const img = document.createElement('img');
   img.src = url;
   img.alt = 'Clothing item';
-  img.style.width = '100%'; // Make image follow wrapper width
-  img.style.height = '100%'; // 🔧 This is key: image scales with wrapper
-
   wrapper.appendChild(img);
   clothingLayer.appendChild(wrapper);
   clothingUrlInput.value = '';
 
   makeDraggable(wrapper);
   addResizeHandles(wrapper);
+
   wrapper.addEventListener('mousedown', (e) => {
     e.stopPropagation();
     selectWrapper(wrapper);
@@ -92,7 +88,6 @@ function makeDraggable(el) {
     if (!isDragging) return;
     const dx = e.clientX - startX;
     const dy = e.clientY - startY;
-
     el.style.left = startLeft + dx + 'px';
     el.style.top = startTop + dy + 'px';
   });
