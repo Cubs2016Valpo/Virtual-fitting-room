@@ -17,7 +17,7 @@ h1 {
   padding: 10px;
   background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px; /* Fix width to align layers */
+  width: 300px; /* fixed width */
   height: auto;
 }
 
@@ -27,6 +27,7 @@ h1 {
   display: block;
   position: relative;
   z-index: 1;
+  user-select: none; /* prevent text/image selection on mannequin */
 }
 
 #clothing-layer {
@@ -35,9 +36,8 @@ h1 {
   left: 0;
   width: 300px;
   height: 100%;
-  pointer-events: none;
+  pointer-events: none; /* disables interactions on container */
   z-index: 2;
-  background-color: rgba(255, 0, 0, 0.1); /* Light red overlay for debugging */
 }
 
 .clothing-item {
@@ -46,7 +46,9 @@ h1 {
   left: 40px;
   width: 200px;
   opacity: 0.95;
-  pointer-events: none;
+  cursor: grab;
+  user-select: none;
+  pointer-events: auto; /* enable interaction on clothing */
   z-index: 3;
 }
 
