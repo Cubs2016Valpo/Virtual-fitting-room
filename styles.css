@@ -40,22 +40,22 @@ h1 {
   z-index: 2;
 }
 
-/* Wrapper for each clothing item to hold resize handles */
 .clothing-wrapper {
   position: absolute;
   top: 60px;
   left: 40px;
   width: 200px;
+  height: auto;
   user-select: none;
   cursor: grab;
   z-index: 3;
   box-sizing: border-box;
 }
 
-/* Clothing image inside wrapper */
 .clothing-wrapper img {
   width: 100%;
-  height: auto;
+  height: 100%; /* KEY LINE FOR SCALING */
+  object-fit: contain;
   display: block;
   pointer-events: auto;
   user-select: none;
@@ -63,12 +63,11 @@ h1 {
   border-radius: 4px;
 }
 
-/* Selected state: show border and handles */
+/* Selected state */
 .clothing-wrapper.selected {
   border: 2px dashed #4CAF50;
 }
 
-/* Resize handles */
 .resize-handle {
   position: absolute;
   width: 12px;
@@ -79,9 +78,9 @@ h1 {
   box-sizing: content-box;
   cursor: pointer;
   z-index: 10;
+  display: none;
 }
 
-/* Positioning handles */
 /* Corners */
 .resize-handle.nw { top: -8px; left: -8px; cursor: nwse-resize; }
 .resize-handle.ne { top: -8px; right: -8px; cursor: nesw-resize; }
