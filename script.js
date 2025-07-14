@@ -36,21 +36,16 @@ function makeDraggable(el) {
     isDragging = true;
     startX = e.clientX;
     startY = e.clientY;
-
     initialLeft = parseInt(el.style.left, 10) || 0;
     initialTop = parseInt(el.style.top, 10) || 0;
-
     el.style.cursor = 'grabbing';
-
     e.preventDefault();
   });
 
   window.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
-
     const dx = e.clientX - startX;
     const dy = e.clientY - startY;
-
     el.style.left = initialLeft + dx + 'px';
     el.style.top = initialTop + dy + 'px';
   });
