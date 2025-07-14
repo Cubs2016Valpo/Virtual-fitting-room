@@ -27,7 +27,7 @@ h1 {
   display: block;
   position: relative;
   z-index: 1;
-  user-select: none; /* prevent selecting mannequin */
+  user-select: none;
 }
 
 #clothing-layer {
@@ -36,21 +36,63 @@ h1 {
   left: 0;
   width: 300px;
   height: 100%;
-  pointer-events: none; /* so layer itself doesn’t block mouse events */
+  pointer-events: none;
   z-index: 2;
 }
 
-.clothing-item {
+/* Wrapper for each clothing item to hold resize handles */
+.clothing-wrapper {
   position: absolute;
   top: 60px;
   left: 40px;
   width: 200px;
-  opacity: 0.95;
-  cursor: grab;
   user-select: none;
-  pointer-events: auto; /* enable mouse events on clothing */
+  cursor: grab;
   z-index: 3;
+  box-sizing: border-box;
 }
+
+/* Clothing image inside wrapper */
+.clothing-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: auto;
+  user-select: none;
+  cursor: inherit;
+  border-radius: 4px;
+}
+
+/* Selected state: show border and handles */
+.clothing-wrapper.selected {
+  border: 2px dashed #4CAF50;
+}
+
+/* Resize handles */
+.resize-handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #4CAF50;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-sizing: content-box;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Positioning handles */
+/* Corners */
+.resize-handle.nw { top: -8px; left: -8px; cursor: nwse-resize; }
+.resize-handle.ne { top: -8px; right: -8px; cursor: nesw-resize; }
+.resize-handle.sw { bottom: -8px; left: -8px; cursor: nesw-resize; }
+.resize-handle.se { bottom: -8px; right: -8px; cursor: nwse-resize; }
+
+/* Edges */
+.resize-handle.n { top: -8px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+.resize-handle.s { bottom: -8px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+.resize-handle.w { left: -8px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+.resize-handle.e { right: -8px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
 
 .input-area {
   margin-top: 20px;
