@@ -17,12 +17,16 @@ h1 {
   padding: 10px;
   background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px; /* Fix width to align layers */
+  height: auto;
 }
 
 #mannequin {
   width: 300px;
   height: auto;
   display: block;
+  position: relative;
+  z-index: 1;
 }
 
 #clothing-layer {
@@ -32,15 +36,18 @@ h1 {
   width: 300px;
   height: 100%;
   pointer-events: none;
+  z-index: 2;
+  background-color: rgba(255, 0, 0, 0.1); /* Light red overlay for debugging */
 }
 
 .clothing-item {
   position: absolute;
-  top: 60px;     /* Adjust to line up with mannequin */
-  left: 40px;    /* Adjust as needed */
-  width: 200px;  /* Shrink to fit mannequin */
+  top: 60px;
+  left: 40px;
+  width: 200px;
   opacity: 0.95;
   pointer-events: none;
+  z-index: 3;
 }
 
 .input-area {
