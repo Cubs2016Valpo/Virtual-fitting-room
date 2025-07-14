@@ -18,6 +18,7 @@ generateBtn.addEventListener('click', () => {
   wrapper.style.top = '60px';
   wrapper.style.left = '40px';
   wrapper.style.width = '200px';
+  wrapper.style.height = 'auto'; // 🔧 Fix: allow height resizing
 
   // Create clothing image
   const img = document.createElement('img');
@@ -59,15 +60,29 @@ document.addEventListener('mousedown', (e) => {
 
 function selectWrapper(wrapper) {
   if (selectedWrapper) {
-    selectedWrapper.classList.remove('selected');
+    deselectWrapper();
   }
+
   selectedWrapper = wrapper;
   selectedWrapper.classList.add('selected');
+
+  // Show handles
+  const handles = selectedWrapper.querySelectorAll('.resize-handle');
+  handles.forEach(handle => {
+    handle.style.display = 'block';
+  });
 }
 
 function deselectWrapper() {
   if (selectedWrapper) {
     selectedWrapper.classList.remove('selected');
+
+    // Hide handles
+    const handles = selectedWrapper.querySelectorAll('.resize-handle');
+    handles.forEach(handle => {
+      handle.style.display = 'none';
+    });
+
     selectedWrapper = null;
   }
 }
@@ -79,7 +94,7 @@ function makeDraggable(el) {
   el.style.cursor = 'grab';
 
   el.addEventListener('mousedown', (e) => {
-    // Only drag if clicking on the wrapper but not on handles
+    // Only drag if not clicking on a handle
     if (e.target.classList.contains('resize-handle')) return;
 
     isDragging = true;
@@ -113,6 +128,7 @@ function addResizeHandles(wrapper) {
   handles.forEach((dir) => {
     const handle = document.createElement('div');
     handle.classList.add('resize-handle', dir);
+    handle.style.display = 'none'; // 🔧 Hide by default
 
     handle.addEventListener('mousedown', (e) => {
       e.stopPropagation();
@@ -159,7 +175,7 @@ function startResize(e, wrapper, direction) {
       newTop = startTop + dy;
     }
 
-    // Minimum size limits
+    // Prevent shrinking too small
     if (newWidth < 20) newWidth = 20;
     if (newHeight < 20) newHeight = 20;
 
