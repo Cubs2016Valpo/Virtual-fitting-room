@@ -2,11 +2,21 @@ body {
   font-family: Arial, sans-serif;
   text-align: center;
   margin: 20px;
+  background-color: #f9f9f9;
+}
+
+h1 {
+  margin-bottom: 30px;
 }
 
 .mannequin-container {
   position: relative;
   display: inline-block;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 10px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 #mannequin {
@@ -15,13 +25,22 @@ body {
   display: block;
 }
 
-#clothing-layer img {
+#clothing-layer {
   position: absolute;
   top: 0;
   left: 0;
   width: 300px;
-  height: auto;
-  pointer-events: none; /* So clicks go through */
+  height: 100%;
+  pointer-events: none;
+}
+
+.clothing-item {
+  position: absolute;
+  top: 60px;     /* Adjust to line up with mannequin */
+  left: 40px;    /* Adjust as needed */
+  width: 200px;  /* Shrink to fit mannequin */
+  opacity: 0.95;
+  pointer-events: none;
 }
 
 .input-area {
@@ -32,6 +51,8 @@ body {
   width: 300px;
   padding: 8px;
   font-size: 16px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
 }
 
 button {
@@ -39,4 +60,13 @@ button {
   margin-left: 8px;
   font-size: 16px;
   cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #45a049;
 }
