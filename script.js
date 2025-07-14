@@ -13,11 +13,9 @@ generateBtn.addEventListener('click', () => {
   const img = document.createElement('img');
   img.src = url;
   img.alt = 'Clothing item';
-  
-  // Append the new clothing image on top of mannequin
-  clothingLayer.appendChild(img);
+  img.classList.add('clothing-item'); // ⭐️ Add styling class
 
-  // Clear input after adding
+  clothingLayer.appendChild(img);
   clothingUrlInput.value = '';
 });
 
