@@ -12,46 +12,40 @@ generateBtn.addEventListener('click', () => {
     return;
   }
 
-  // Create wrapper div for clothing image + handles
+  // Create wrapper div
   const wrapper = document.createElement('div');
   wrapper.classList.add('clothing-wrapper');
   wrapper.style.top = '60px';
   wrapper.style.left = '40px';
   wrapper.style.width = '200px';
-  wrapper.style.height = 'auto'; // 🔧 Fix: allow height resizing
+  wrapper.style.height = 'auto';
 
   // Create clothing image
   const img = document.createElement('img');
   img.src = url;
   img.alt = 'Clothing item';
+  img.style.width = '100%'; // Make image follow wrapper width
+  img.style.height = '100%'; // 🔧 This is key: image scales with wrapper
 
   wrapper.appendChild(img);
   clothingLayer.appendChild(wrapper);
   clothingUrlInput.value = '';
 
-  // Make wrapper draggable
   makeDraggable(wrapper);
-
-  // Add resize handles
   addResizeHandles(wrapper);
-
-  // Add selection handler
   wrapper.addEventListener('mousedown', (e) => {
-    e.stopPropagation(); // Prevent deselect when clicking inside
+    e.stopPropagation();
     selectWrapper(wrapper);
   });
 
-  // Auto select new wrapper
   selectWrapper(wrapper);
 });
 
-// Clear all clothing
 clearBtn.addEventListener('click', () => {
   clothingLayer.innerHTML = '';
   selectedWrapper = null;
 });
 
-// Click outside to deselect
 document.addEventListener('mousedown', (e) => {
   if (!clothingLayer.contains(e.target)) {
     deselectWrapper();
@@ -59,50 +53,38 @@ document.addEventListener('mousedown', (e) => {
 });
 
 function selectWrapper(wrapper) {
-  if (selectedWrapper) {
+  if (selectedWrapper && selectedWrapper !== wrapper) {
     deselectWrapper();
   }
-
   selectedWrapper = wrapper;
-  selectedWrapper.classList.add('selected');
-
-  // Show handles
-  const handles = selectedWrapper.querySelectorAll('.resize-handle');
-  handles.forEach(handle => {
+  wrapper.classList.add('selected');
+  wrapper.querySelectorAll('.resize-handle').forEach(handle => {
     handle.style.display = 'block';
   });
 }
 
 function deselectWrapper() {
-  if (selectedWrapper) {
-    selectedWrapper.classList.remove('selected');
-
-    // Hide handles
-    const handles = selectedWrapper.querySelectorAll('.resize-handle');
-    handles.forEach(handle => {
-      handle.style.display = 'none';
-    });
-
-    selectedWrapper = null;
-  }
+  if (!selectedWrapper) return;
+  selectedWrapper.classList.remove('selected');
+  selectedWrapper.querySelectorAll('.resize-handle').forEach(handle => {
+    handle.style.display = 'none';
+  });
+  selectedWrapper = null;
 }
 
 function makeDraggable(el) {
   let isDragging = false;
-  let startX, startY, initialLeft, initialTop;
-
-  el.style.cursor = 'grab';
+  let startX, startY, startLeft, startTop;
 
   el.addEventListener('mousedown', (e) => {
-    // Only drag if not clicking on a handle
     if (e.target.classList.contains('resize-handle')) return;
 
     isDragging = true;
     startX = e.clientX;
     startY = e.clientY;
-    initialLeft = parseInt(el.style.left, 10) || 0;
-    initialTop = parseInt(el.style.top, 10) || 0;
-    el.style.cursor = 'grabbing';
+    startLeft = parseInt(el.style.left) || 0;
+    startTop = parseInt(el.style.top) || 0;
+
     e.preventDefault();
   });
 
@@ -110,32 +92,29 @@ function makeDraggable(el) {
     if (!isDragging) return;
     const dx = e.clientX - startX;
     const dy = e.clientY - startY;
-    el.style.left = initialLeft + dx + 'px';
-    el.style.top = initialTop + dy + 'px';
+
+    el.style.left = startLeft + dx + 'px';
+    el.style.top = startTop + dy + 'px';
   });
 
   window.addEventListener('mouseup', () => {
-    if (isDragging) {
-      isDragging = false;
-      el.style.cursor = 'grab';
-    }
+    isDragging = false;
   });
 }
 
 function addResizeHandles(wrapper) {
-  const handles = ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'];
+  const directions = ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'];
 
-  handles.forEach((dir) => {
+  directions.forEach(dir => {
     const handle = document.createElement('div');
-    handle.classList.add('resize-handle', dir);
-    handle.style.display = 'none'; // 🔧 Hide by default
+    handle.className = `resize-handle ${dir}`;
+    handle.style.display = 'none';
+    wrapper.appendChild(handle);
 
     handle.addEventListener('mousedown', (e) => {
       e.stopPropagation();
       startResize(e, wrapper, dir);
     });
-
-    wrapper.appendChild(handle);
   });
 }
 
@@ -147,9 +126,8 @@ function startResize(e, wrapper, direction) {
 
   const startWidth = wrapper.offsetWidth;
   const startHeight = wrapper.offsetHeight;
-
-  const startLeft = parseInt(wrapper.style.left, 10) || 0;
-  const startTop = parseInt(wrapper.style.top, 10) || 0;
+  const startLeft = parseInt(wrapper.style.left) || 0;
+  const startTop = parseInt(wrapper.style.top) || 0;
 
   function doResize(ev) {
     const dx = ev.clientX - startX;
@@ -160,12 +138,8 @@ function startResize(e, wrapper, direction) {
     let newLeft = startLeft;
     let newTop = startTop;
 
-    if (direction.includes('e')) {
-      newWidth = startWidth + dx;
-    }
-    if (direction.includes('s')) {
-      newHeight = startHeight + dy;
-    }
+    if (direction.includes('e')) newWidth = startWidth + dx;
+    if (direction.includes('s')) newHeight = startHeight + dy;
     if (direction.includes('w')) {
       newWidth = startWidth - dx;
       newLeft = startLeft + dx;
@@ -175,9 +149,8 @@ function startResize(e, wrapper, direction) {
       newTop = startTop + dy;
     }
 
-    // Prevent shrinking too small
-    if (newWidth < 20) newWidth = 20;
-    if (newHeight < 20) newHeight = 20;
+    if (newWidth < 30) newWidth = 30;
+    if (newHeight < 30) newHeight = 30;
 
     wrapper.style.width = newWidth + 'px';
     wrapper.style.height = newHeight + 'px';
