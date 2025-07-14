@@ -13,7 +13,7 @@ generateBtn.addEventListener('click', () => {
   const img = document.createElement('img');
   img.src = url;
   img.alt = 'Clothing item';
-  img.classList.add('clothing-item'); // ⭐️ Add styling class
+  img.classList.add('clothing-item');
 
   clothingLayer.appendChild(img);
   clothingUrlInput.value = '';
